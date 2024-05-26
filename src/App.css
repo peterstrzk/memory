@@ -1,55 +1,57 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0;
 }
 
-.rectangle {
-  height: 20em;
-  width: 15em;
-  border-radius: 15px;
-  background-color: #163499;
-  will-change: filter;
-  transition: filter 300ms;
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.rectangle div {
-  color: white;
+.stats {
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.rectangle:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes rectangle-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .rectangle {
-    animation: rectangle-spin infinite 20s linear;
-  }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 80px);
+  column-gap: 85px;
 }
 
 .card {
-  padding: 2em;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 45px;
+  margin-right: 20px; /* Add horizontal margin */
+  margin-bottom: 10px; /* Add vertical margin */
 }
 
-.read-the-docs {
-  color: #888;
+.card:nth-child(10n) {
+  margin-right: 0; /* Remove margin for the last card in each row */
+}
+
+.card.revealed, .card.matched {
+  background-color: #e0e0e0;
+}
+
+.congratulations {
+  font-size: 24px;
+  color: green;
+  margin-top: 20px;
 }
