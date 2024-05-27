@@ -114,6 +114,7 @@ const App: React.FC = () => {
           ))}
         </div>
       )}
+      <div>Made by Piotr Starzak</div>
     </div>
   );
 };
