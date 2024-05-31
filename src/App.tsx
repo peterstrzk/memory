@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import StopButton from './components/StopButton';
+import  { SharedStopProvider } from './hooks/useStopTime';
 import './App.css';
+import Clock from './components/Clock';
 
 type Card = {
   id: number;
@@ -32,18 +35,13 @@ const App: React.FC = () => {
   const [revealedCards, setRevealedCards] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [matchedPairs, setMatchedPairs] = useState(0);
-  const [time, setTime] = useState(0);
   const [gameCompleted, setGameCompleted] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [receivedData, setReceivedData] = useState("");
 
-  useEffect(() => {
-    timerRef.current = setInterval(() => setTime((prevTime) => prevTime + 1), 1000);
-    return () => {
-      if (timerRef.current !== null) {
-        clearInterval(timerRef.current);
-      }
-    };
-  }, []);
+    const handleDataFromChild = (data) => {
+        setReceivedData(data);
+    }
 
   useEffect(() => {
     if (revealedCards.length === 2) {
@@ -67,10 +65,10 @@ const App: React.FC = () => {
           );
         }, 1000);
       }
-      setMoves(moves + 1);
+      setMoves((prevMoves) => prevMoves + 1);
       setRevealedCards([]);
     }
-  }, [revealedCards, cards, moves]);
+  }, [revealedCards, cards]);
 
   useEffect(() => {
     if (matchedPairs === cards.length / 2) {
@@ -91,31 +89,34 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="game">
-      <div className="stats">
-        <div>Time: {time} seconds</div>
-        <div>Moves: {moves}</div>
-        <div>Matched Pairs: {matchedPairs}</div>
+    <SharedStopProvider>
+      <div className="game">
+        <div className="stats">
+          <Clock />
+          <div>Moves: {moves}</div>
+          <div>Matched Pairs: {matchedPairs}</div>
+          <StopButton />
+        </div>
+        {gameCompleted ? (
+          <div className="congratulations">
+            Congratulations! You completed the game in {time} seconds.
+          </div>
+        ) : (
+          <div className="grid">
+            {cards.map((card, index) => (
+              <div
+                key={card.id}
+                className={`card ${card.revealed ? 'revealed' : ''} ${card.matched ? 'matched' : ''}`}
+                onClick={() => handleCardClick(index)}
+              >
+                {card.revealed || card.matched ? card.pattern : ''}
+              </div>
+            ))}
+          </div>
+        )}
+        <div>Made by Piotr Starzak</div>
       </div>
-      {gameCompleted ? (
-        <div className="congratulations">
-          Congratulations! You completed the game in {time} seconds.
-        </div>
-      ) : (
-        <div className="grid">
-          {cards.map((card, index) => (
-            <div
-              key={card.id}
-              className={`card ${card.revealed ? 'revealed' : ''} ${card.matched ? 'matched' : ''}`}
-              onClick={() => handleCardClick(index)}
-            >
-              {card.revealed || card.matched ? card.pattern : ''}
-            </div>
-          ))}
-        </div>
-      )}
-      <div>Made by Piotr Starzak</div>
-    </div>
+    </SharedStopProvider>
   );
 };
 
