@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import StopButton from './components/StopButton';
-// import  { SharedStopProvider } from './hooks/useStopTime';
+import  { SharedStopProvider } from './hooks/useStopTime';
 import './App.css';
 import Clock from './components/Clock';
-// import EndGameInfo from './components/EndGameInfo';
-// import { SharedTimeProvider } from './hooks/useTimeEndGame';
+import EndGameInfo from './components/EndGameInfo';
+import { SharedTimeProvider } from './hooks/useTimeEndGame';
 
 type Card = {
   id: number;
@@ -86,9 +86,8 @@ const App: React.FC = () => {
   };
 
   return (
-    // <SharedTimeProvider>
-    //   <SharedStopProvider>
-    
+    <SharedTimeProvider>
+      <SharedStopProvider>
         <div className="game">
           <div className="stats">
             <Clock />
@@ -97,8 +96,7 @@ const App: React.FC = () => {
             <StopButton />
           </div>
           {gameCompleted ? (
-            // <EndGameInfo />
-            <div>dasda</div>
+            <EndGameInfo />
           ) : (
             <div className="grid">
               {cards.map((card, index) => (
@@ -114,8 +112,8 @@ const App: React.FC = () => {
           )}
           <div>Made by Piotr Starzak</div>
         </div>
-        /* </SharedStopProvider> 
-    </SharedTimeProvider> */
+        </SharedStopProvider> 
+    </SharedTimeProvider>
       
   );
 };
