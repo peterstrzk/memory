@@ -1,8 +1,9 @@
 import React from 'react';
 import  useSharedTime  from '../hooks/useTimeEndGame.tsx'
 
-const GameCompleted: React.FC = () => {
+const EndGameInfo: React.FC = () => {
   const { time } = useSharedTime();
+  
 
   return (
     <div className="congratulations">
@@ -11,4 +12,4 @@ const GameCompleted: React.FC = () => {
   );
 };
 
-export default GameCompleted;
+export default EndGameInfo;

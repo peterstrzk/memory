@@ -7,7 +7,7 @@ interface ITime {
 
 const SharedTimeContext = createContext<ITime | undefined>(undefined);
 
-export const SharedStopProvider = ({children}: {children: ReactNode}) => {
+export const SharedTimeProvider = ({children}: {children: ReactNode}) => {
     const [time, setTime] = useState<number>(0);
 
     return (
@@ -17,7 +17,7 @@ export const SharedStopProvider = ({children}: {children: ReactNode}) => {
     );
 }
 
-const useSharedStop = () => {
+const useSharedTime = () => {
     const context = useContext(SharedTimeContext);
     if (!context) {
         throw new Error("useSharedStop must be used within a SharedStopProvider");
@@ -25,4 +25,4 @@ const useSharedStop = () => {
     return context;
 }
 
-export default useSharedStop;
+export default useSharedTime;

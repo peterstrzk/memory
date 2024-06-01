@@ -1,11 +1,14 @@
-import React, { useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useSharedStop from "../hooks/useStopTime";
-const Clock: React.FC = () => {
-    const [time, setTime] = useState(0);
-const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-const { stop } = useSharedStop();
+import useSharedTime from "../hooks/useTimeEndGame";
 
-useEffect(() => {
+const Clock: React.FC = () => {
+  const [time, setTime] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const { stop } = useSharedStop();
+  const { setTime: setSharedTime } = useSharedTime();
+
+  useEffect(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
     }
@@ -22,8 +25,13 @@ useEffect(() => {
     };
   }, [stop]);
 
-  return(
+  useEffect(() => {
+    setSharedTime(time);
+  }, [time, setSharedTime]);
+
+  return (
     <div>Time: {time} seconds</div>
-  )
-}
+  );
+};
+
 export default Clock;

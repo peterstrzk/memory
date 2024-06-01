@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import StopButton from './components/StopButton';
-import  { SharedStopProvider } from './hooks/useStopTime';
+// import  { SharedStopProvider } from './hooks/useStopTime';
 import './App.css';
 import Clock from './components/Clock';
-import EndGameInfo from './components/EndGameInfo';
+// import EndGameInfo from './components/EndGameInfo';
+// import { SharedTimeProvider } from './hooks/useTimeEndGame';
 
 type Card = {
   id: number;
@@ -36,7 +37,7 @@ const App: React.FC = () => {
   const [revealedCards, setRevealedCards] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [matchedPairs, setMatchedPairs] = useState(0);
-  const [gameCompleted, setGameCompleted] = useState(true);
+  const [gameCompleted, setGameCompleted] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -85,32 +86,37 @@ const App: React.FC = () => {
   };
 
   return (
-    <SharedStopProvider>
-      <div className="game">
-        <div className="stats">
-          <Clock />
-          <div>Moves: {moves}</div>
-          <div>Matched Pairs: {matchedPairs}</div>
-          <StopButton />
-        </div>
-        {gameCompleted ? (
-          <EndGameInfo />
-        ) : (
-          <div className="grid">
-            {cards.map((card, index) => (
-              <div
-                key={card.id}
-                className={`card ${card.revealed ? 'revealed' : ''} ${card.matched ? 'matched' : ''}`}
-                onClick={() => handleCardClick(index)}
-              >
-                {card.revealed || card.matched ? card.pattern : ''}
-              </div>
-            ))}
+    // <SharedTimeProvider>
+    //   <SharedStopProvider>
+    
+        <div className="game">
+          <div className="stats">
+            <Clock />
+            <div>Moves: {moves}</div>
+            <div>Matched Pairs: {matchedPairs}</div>
+            <StopButton />
           </div>
-        )}
-        <div>Made by Piotr Starzak</div>
-      </div>
-    </SharedStopProvider>
+          {gameCompleted ? (
+            // <EndGameInfo />
+            <div>dasda</div>
+          ) : (
+            <div className="grid">
+              {cards.map((card, index) => (
+                <div
+                  key={card.id}
+                  className={`card ${card.revealed ? 'revealed' : ''} ${card.matched ? 'matched' : ''}`}
+                  onClick={() => handleCardClick(index)}
+                >
+                  {card.revealed || card.matched ? card.pattern : ''}
+                </div>
+              ))}
+            </div>
+          )}
+          <div>Made by Piotr Starzak</div>
+        </div>
+        /* </SharedStopProvider> 
+    </SharedTimeProvider> */
+      
   );
 };
 
