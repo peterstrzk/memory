@@ -3,6 +3,7 @@ import StopButton from './components/StopButton';
 import  { SharedStopProvider } from './hooks/useStopTime';
 import './App.css';
 import Clock from './components/Clock';
+import EndGameInfo from './components/EndGameInfo';
 
 type Card = {
   id: number;
@@ -35,13 +36,8 @@ const App: React.FC = () => {
   const [revealedCards, setRevealedCards] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [matchedPairs, setMatchedPairs] = useState(0);
-  const [gameCompleted, setGameCompleted] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState(true);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const [receivedData, setReceivedData] = useState("");
-
-    const handleDataFromChild = (data) => {
-        setReceivedData(data);
-    }
 
   useEffect(() => {
     if (revealedCards.length === 2) {
@@ -98,9 +94,7 @@ const App: React.FC = () => {
           <StopButton />
         </div>
         {gameCompleted ? (
-          <div className="congratulations">
-            Congratulations! You completed the game in {time} seconds.
-          </div>
+          <EndGameInfo />
         ) : (
           <div className="grid">
             {cards.map((card, index) => (
